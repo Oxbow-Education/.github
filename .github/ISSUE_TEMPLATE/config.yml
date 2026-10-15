@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Asana Bug Board
+    url: https://app.asana.com
+    about: Code defects are proved with a failing test and tracked on the Asana Bug Board (see the repo's CLAUDE.md or .claude/rules/work-tracking.md for the board GID).
+  - name: Asana Ops Board
+    url: https://app.asana.com
+    about: Infrastructure, CI/CD, deployment, secrets, and configuration tasks are tracked on the Asana Ops Board.
