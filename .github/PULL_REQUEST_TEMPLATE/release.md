@@ -1,14 +1,14 @@
 <!--
-  Release PR: development → main (promotes staging to production).
+  Release PR: release/YYYY-MM-DD → main (promotes a release branch to production; supports both a full `development` promotion via `release/YYYY-MM-DD` and a selective chunk cut from `main`).
   Open with this template via:  ?template=release.md&expand=1
-  Example: https://github.com/Oxbow-Education/<repo>/compare/main...development?template=release.md&expand=1
+  Example: https://github.com/Oxbow-Education/<repo>/compare/main...release/YYYY-MM-DD?template=release.md&expand=1
 
   This is NOT where code review happens — every change here was already reviewed
-  when its PR merged into `development`. This PR is a manifest + go/no-go gate + rollback plan.
+  when its PR merged into `development` (or `epic/*`). This PR is a manifest + go/no-go gate + rollback plan.
 
-  ⚠️ MERGE METHOD: "Create a merge commit" — NOT squash, NOT rebase.
+  ⚠️ MERGE METHOD: "Create a merge commit" (`gh pr merge --merge`) — NEVER Squash, NEVER Rebase.
   Both `development` and `main` are long-lived branches; squashing or rebasing makes
-  their histories diverge so the next release PR shows already-shipped commits as new
+  their histories diverge so the next release or back-merge shows already-shipped commits as new
   and conflicts on every touched file.
 -->
 
@@ -16,13 +16,18 @@
 
 ## Release summary
 
-<!-- One line: the theme of this batch and why it's going out now. -->
+<!-- One line: the theme of this release chunk and why it's going out now. -->
+
+- **Release chunk type:** <!-- Release train from development (cut from `development`) | Selective chunk cut from main (cut from `main` with cherry-picked / merged PRs) -->
+- **Previous production release tag / SHA (`main`):** <!-- e.g. v2026.10.15 (`abc1234`) -->
 
 ## What's shipping
 
 <!--
   Generate, don't hand-write:
-    git log --first-parent origin/main..origin/development --pretty='- %s'
+    git log --no-merges origin/main..HEAD --pretty='- %s (%h)'
+  Or by first-parent commits on the release branch:
+    git log --first-parent origin/main..HEAD --pretty='- %s (%h)'
 -->
 
 -
@@ -34,30 +39,29 @@
 - [ ] Infra / env / feature-flag change? — describe:
 - [ ] External write-back, sync flow, or production-write guard touched? — describe:
 
-## Env / config changes (apply in Coolify / platform)
+## Env / config changes (apply in Coolify / 1Password)
 
 <!-- New/changed env vars, build vars, secrets, or feature flags. Note whether each must be set BEFORE or AFTER the deploy. "(none)" if nothing. -->
 
 - (none)
 
-## Verification
+## Pre-merge verification checklist
 
-- [ ] `development` CI is green (lint, typecheck, unit/contract/e2e tests, build)
-- [ ] Staging deployed from `development` and smoke-tested per [`docs/deployment.md`](../blob/HEAD/docs/deployment.md)
+- [ ] Release chunk type noted (`Release train from development` vs `Selective chunk cut from main`)
+- [ ] Release branch and `development` CI are green (lint, typecheck, unit/contract/e2e tests, build)
+- [ ] Staging (`development`) verified and smoke-tested per [`docs/deployment.md`](../blob/HEAD/docs/deployment.md)
 - [ ] Every bundled PR was already reviewed and merged into `development`
-- [ ] No unmerged hotfix drift: any commit on `main` since the last release is also present in `development`
-
-Post-deploy prod smoke checks & unpausing held schedules/monitors:
-
-- [ ] Run post-deploy production smoke checks with the named production identity (per `docs/deployment.md`)
-- [ ] Unpause any held schedules or monitors (e.g., new Prefect schedules, Uptime Kuma monitors) once smoke checks pass
-- [ ]
+- [ ] Database migrations applied to production before merge (if applicable, in the required order per `docs/deployment.md`)
+- [ ] Production env vars / secrets verified in Coolify / 1Password
+- [ ] Rollback target noted (previous `vYYYY.MM.DD` tag / commit SHA on `main`)
+- [ ] Merge method confirmed as **Create a merge commit** (`gh pr merge --merge`) — never Squash or Rebase
 
 ## Rollback plan
 
 <!-- Pick the path that applies and note any forward-only migration or external write-back caveats per docs/deployment.md. -->
 
-- Revert the merge commit on `main` (`git revert -m 1 <merge-sha>`) and redeploy (or redeploy the previous production image in Coolify).
+- **Rollback target:** <!-- previous `vYYYY.MM.DD` tag / commit SHA on `main` -->
+- Revert the merge commit on `main` (`git revert -m 1 <merge-sha>`) and redeploy (or redeploy the previous `vYYYY.MM.DD` production image in Coolify).
 - Forward-only migrations / data implications: <!-- none / note any irreversible migration -->
 - External write-back / drain pause required before rollback?: <!-- none / pause drain or scheduled write flow first if the issue is on an external write path -->
 
@@ -68,10 +72,8 @@ Post-deploy prod smoke checks & unpausing held schedules/monitors:
 
 ---
 
-### Merge checklist (release captain)
+## Post-merge checklist
 
-- [ ] Merge method = **Create a merge commit** (not squash / not rebase)
-- [ ] Apply pending production database migrations in the required order per `docs/deployment.md`
-- [ ] After merge: confirm production deploy succeeded
-- [ ] After merge: run the production smoke checks and unpause any held schedules/monitors above
-- [ ] If any hotfix landed directly on `main`, back-merge `main → development`
+- [ ] Automated `vYYYY.MM.DD` (or `vYYYY.MM.DD.N`) tag and GitHub Release created on `main`
+- [ ] Production deploy healthy and `## After deploy` signals checked (plus any held schedules/monitors unpaused per `docs/deployment.md`)
+- [ ] Back-merged `main -> development` (`gh pr merge --merge`) so `development` records the release merge commit and any release-branch / hotfix changes
