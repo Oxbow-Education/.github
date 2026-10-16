@@ -1,4 +1,4 @@
-> **Repo-specific context:** [CLAUDE.md](../blob/HEAD/CLAUDE.md) · [docs/README.md](../blob/HEAD/docs/README.md) · [docs/deployment.md](../blob/HEAD/docs/deployment.md) — Need a release PR (`development → main`)? [Switch to the Release template](?template=release.md&expand=1).
+> **Repo-specific context:** [CLAUDE.md](../blob/HEAD/CLAUDE.md) · [docs/README.md](../blob/HEAD/docs/README.md) · [docs/deployment.md](../blob/HEAD/docs/deployment.md) — Target `development`, `epic/<slug>`, or a stacked PR base (`gh stack`). Opening an epic foundation PR (`epic/<slug> → development`)? [Switch to the Epic template](?template=epic.md&expand=1). Promoting a release (`release/YYYY-MM-DD → main`)? [Switch to the Release template](?template=release.md&expand=1).
 
 ## Description
 

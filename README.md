@@ -6,8 +6,9 @@ Organization-wide default community health files and pull request / issue templa
 
 | File | Purpose |
 | --- | --- |
-| [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) | Default PR template for feature, fix, and chore branches targeting `development` (includes the `## After deploy` block read by `verify-fix`). |
-| [`.github/PULL_REQUEST_TEMPLATE/release.md`](.github/PULL_REQUEST_TEMPLATE/release.md) | Release PR template for promoting `development → main`. Open via `?template=release.md&expand=1` on the compare / new-PR URL. |
+| [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) | Default PR template for feature, fix, and chore branches targeting `development`, `epic/<slug>`, or stacked PR bases via `gh stack` (includes the `## After deploy` block read by `verify-fix`). |
+| [`.github/PULL_REQUEST_TEMPLATE/epic.md`](.github/PULL_REQUEST_TEMPLATE/epic.md) | Epic foundation PR template (`epic/<slug> → development`), structured as a live status dashboard (`Summary`, `Tickets`, `Open stack`, `Merge order`, `Not yet started`, `Working on this branch`). Open via `?template=epic.md&expand=1`. |
+| [`.github/PULL_REQUEST_TEMPLATE/release.md`](.github/PULL_REQUEST_TEMPLATE/release.md) | Release PR template for promoting `release/YYYY-MM-DD → main` (full `development` train or selective chunk cut from `main`, merged via merge commit `--merge`, tagged `vYYYY.MM.DD`, and back-merged `main → development`). Open via `?template=release.md&expand=1` on the compare / new-PR URL. |
 | [`.github/ISSUE_TEMPLATE/config.yml`](.github/ISSUE_TEMPLATE/config.yml) | Disables blank GitHub issues and routes bug and ops tracking to the Asana Bug Board and Asana Ops Board. |
 | [`SECURITY.md`](SECURITY.md) | Organization security policy directing vulnerability reports to GitHub Private Vulnerability Reporting or WhereWeGo engineering rather than public issues. |
 
