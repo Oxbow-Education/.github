@@ -57,6 +57,12 @@ development
   - **Blocked by:** <!-- e.g. `#M` landing shared table / API contract -->
   - **If epic ships without it:** <!-- what breaks or degrades in production -->
 
+## Decisions
+
+<!-- ADRs the epic carries, newest state only. -->
+
+- ADR links (`docs/decisions/NNNN`), or none:
+
 ## Working on this branch
 
 <!-- Local-dev gotchas for anyone checking out `epic/<slug>` or branching off it: DB reset commands, new env vars (`1Password` item), seed scripts, or pending migrations. -->
