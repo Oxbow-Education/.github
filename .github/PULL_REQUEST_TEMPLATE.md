@@ -9,6 +9,10 @@
 - Asana task:
 - Ticket ID (`BUG-XX` / `OPS-XX`, if applicable):
 
+## Decisions
+
+- ADR links (`docs/decisions/NNNN`), or none:
+
 ## Acceptance Criteria
 
 - [ ]
